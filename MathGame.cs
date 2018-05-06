@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Assignment2.States;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -7,30 +8,32 @@ namespace Assignment2
 
     public class MathGame : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager m_graphics;
+        SpriteBatch m_spriteBatch;
+        StateManager m_stateManager;
 
         public MathGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            m_graphics = new GraphicsDeviceManager(this);
+            m_stateManager = new StateManager();
+            m_stateManager.NoActiveStates += M_stateManager_NoActiveStates;
             Content.RootDirectory = "Content";
         }
-        
+
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            graphics.IsFullScreen = true;
-            graphics.PreferMultiSampling = true;
-            
-            graphics.ApplyChanges();
+            m_graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            m_graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            m_graphics.IsFullScreen = true;
+            m_graphics.ApplyChanges();
+
             base.Initialize();
         }
         
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+            m_spriteBatch = new SpriteBatch(GraphicsDevice);
+            m_stateManager.Init(m_spriteBatch, Content);
         }
 
         protected override void UnloadContent()
@@ -42,7 +45,8 @@ namespace Assignment2
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
+            m_stateManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -51,7 +55,14 @@ namespace Assignment2
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            m_stateManager.Draw(gameTime);
+
             base.Draw(gameTime);
+        }
+
+        private void M_stateManager_NoActiveStates(object sender, System.EventArgs e)
+        {
+            Exit();
         }
     }
 }
