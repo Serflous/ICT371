@@ -22,9 +22,11 @@ namespace Assignment2
 
         protected override void Initialize()
         {
-            m_graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            m_graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            m_graphics.IsFullScreen = true;
+            m_graphics.PreferredBackBufferWidth = Properties.Settings.Default.SCREEN_RES_X;
+            m_graphics.PreferredBackBufferHeight = Properties.Settings.Default.SCREEN_RES_Y;
+            m_graphics.IsFullScreen = Properties.Settings.Default.FULL_SCREEN;
+            IsFixedTimeStep = Properties.Settings.Default.VSYNC;
+            m_graphics.SynchronizeWithVerticalRetrace = Properties.Settings.Default.VSYNC;
             m_graphics.ApplyChanges();
 
             base.Initialize();
@@ -56,7 +58,6 @@ namespace Assignment2
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             m_stateManager.Draw(gameTime);
-
             base.Draw(gameTime);
         }
 
