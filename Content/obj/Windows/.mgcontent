@@ -4,7 +4,11 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Title.png</File>
     <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Selector.spritefont</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Blackboard.png</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/ExitText.png</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/OptionsText.png</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/PlayGameText.png</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/TitleText.png</File>
   </SourceFiles>
 </SourceFileCollection>
