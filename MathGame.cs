@@ -18,6 +18,7 @@ namespace Assignment2
             m_stateManager = new StateManager();
             m_stateManager.NoActiveStates += M_stateManager_NoActiveStates;
             Content.RootDirectory = "Content";
+            
         }
 
         protected override void Initialize()

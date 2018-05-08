@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Profile>Reach</Profile>
+  <Profile>HiDef</Profile>
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
@@ -10,5 +10,12 @@
     <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/OptionsText.png</File>
     <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/PlayGameText.png</File>
     <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/TitleText.png</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Classroom/blackboard.jpg</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Classroom/playgroundOne.JPG</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Classroom/playgroundTwo.jpg</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Classroom/woodFour.jpg</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Classroom/woodOne.jpg</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Classroom/woodThree.jpg</File>
+    <File>E:/User/Documents/Programming/Uni/ICT371-GameDev/Assignment2/Assignment2/Assignment2/Content/Classroom/woodTwo.jpg</File>
   </SourceFiles>
 </SourceFileCollection>

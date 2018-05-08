@@ -9,12 +9,15 @@ namespace Assignment2.States
 {
     interface IState : IDisposable
     {
-        
 
+        void Load();
         void Update(GameTime time);
         void Draw(GameTime time);
+        void Unload();
 
-        void Init();
+        int GetID();
+
+        void Init(IStateManager manager);
 
     }
 }

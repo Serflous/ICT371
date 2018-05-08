@@ -14,7 +14,7 @@ namespace Assignment2.States
     {
 
 
-        private StateManager m_stateManager;
+        private IStateManager m_stateManager;
         private SpriteBatch m_spriteBatch;
         private ContentManager m_content;
         private Texture2D m_blackboard;
@@ -33,14 +33,18 @@ namespace Assignment2.States
         private GamePadState m_oldGamePadState;
         private int m_option = 0;
 
-        public StateMainMenu(StateManager stateManager, SpriteBatch spriteBatch, ContentManager content)
+        public StateMainMenu(SpriteBatch spriteBatch, ContentManager content)
         {
-            m_stateManager = stateManager;
             m_spriteBatch = spriteBatch;
-            m_content = content;
+            m_content = new ContentManager(content.ServiceProvider, "Content");
         }
 
-        public void Init()
+        public void Init(IStateManager manager)
+        {
+            m_stateManager = manager;
+        }
+
+        public void Load()
         {
             m_blackboard = m_content.Load<Texture2D>("Blackboard");
             m_titleText = m_content.Load<Texture2D>("TitleText");
@@ -52,11 +56,16 @@ namespace Assignment2.States
             int expectedHeight = m_blackboard.Height;
             float adjustedWidthFactor = Properties.Settings.Default.SCREEN_RES_X / (float)expectedWidth;
             float adjustedHeightFactor = Properties.Settings.Default.SCREEN_RES_Y / (float)expectedHeight;
-            
+
             m_titleTextRectangle = new Rectangle((int)(86 * adjustedWidthFactor), (int)(49 * adjustedHeightFactor), (int)(m_titleText.Width * adjustedWidthFactor), (int)(m_titleText.Height * adjustedHeightFactor));
             m_playGameTextRectangle = new Rectangle((int)(657 * adjustedWidthFactor), (int)(201 * adjustedHeightFactor), (int)(m_playGameText.Width * adjustedWidthFactor), (int)(m_playGameText.Height * adjustedHeightFactor));
             m_optionsTextRectangle = new Rectangle((int)(657 * adjustedWidthFactor), (int)(358 * adjustedHeightFactor), (int)(m_optionsText.Width * adjustedWidthFactor), (int)(m_optionsText.Height * adjustedHeightFactor));
             m_exitTextRectangle = new Rectangle((int)(657 * adjustedWidthFactor), (int)(509 * adjustedHeightFactor), (int)(m_exitText.Width * adjustedWidthFactor), (int)(m_exitText.Height * adjustedHeightFactor));
+        }
+
+        public void Unload()
+        {
+            m_content.Unload();
         }
         
         public void Update(GameTime time)
@@ -83,7 +92,7 @@ namespace Assignment2.States
             {
                 if(m_option == 0)
                 {
-                    // Play Game
+                    m_stateManager.PushState((int)StateManager.States.STATE_GAME);
                 }
                 if(m_option == 1)
                 {
@@ -109,12 +118,15 @@ namespace Assignment2.States
             m_spriteBatch.Draw(m_exitText, m_exitTextRectangle, (m_option == 2) ? Color.Tan : Color.White);
             m_spriteBatch.End();
         }
+
+        public int GetID()
+        {
+            return (int)StateManager.States.STATE_MAIN_MENU;
+        }
         
         public void Dispose()
         {
 
         }
-
-
     }
 }
