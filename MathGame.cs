@@ -28,6 +28,7 @@ namespace Assignment2
             m_graphics.IsFullScreen = Properties.Settings.Default.FULL_SCREEN;
             IsFixedTimeStep = Properties.Settings.Default.VSYNC;
             m_graphics.SynchronizeWithVerticalRetrace = Properties.Settings.Default.VSYNC;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             m_graphics.ApplyChanges();
 
             base.Initialize();

@@ -16,6 +16,12 @@ namespace Assignment2.States
 
         private IStateManager m_stateManager;
         private ContentManager m_contentManager;
+        private Matrix m_projectionMatrix;
+        private Matrix m_viewMatrix;
+        private Matrix m_worldMatrix;
+
+        Vector3 camPosition = new Vector3(0, 1, 0);
+        Vector3 camLookAtVector = Vector3.Zero;
 
         private Model m_classroom;
 
@@ -27,16 +33,33 @@ namespace Assignment2.States
         public void Init(IStateManager manager)
         {
             m_stateManager = manager;
+            m_projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), Properties.Settings.Default.SCREEN_RES_X / Properties.Settings.Default.SCREEN_RES_Y, 0.1f, 1000f);
+
         }
 
         public void Load()
         {
-            //m_classroom = m_contentManager.Load<Model>("Classroom/classroom");
+            m_classroom = m_contentManager.Load<Model>("Classroom/classroom");
+            m_worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Zero, Vector3.Up);
+            m_viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Zero, Vector3.UnitZ);
         }
 
         public void Draw(GameTime time)
         {
-            
+            foreach(ModelMesh mesh in m_classroom.Meshes)
+            {
+                foreach(BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    //effect.TextureEnabled = true;
+                    effect.PreferPerPixelLighting = true;
+                    effect.World = Matrix.Identity;
+                    
+                    effect.View = Matrix.CreateLookAt(camPosition, camLookAtVector, Vector3.UnitZ);
+                    effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1024 / 768, 0.1f, 1000f);
+                }
+                mesh.Draw();
+            }
         }
         
         public void Update(GameTime time)
@@ -44,6 +67,14 @@ namespace Assignment2.States
             if(Keyboard.GetState().IsKeyDown(Keys.LeftControl))
             {
                 m_stateManager.PopState();
+            }
+            if(Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                camPosition.Z += 0.1f;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                camPosition.Z -= 0.1f;
             }
         }
 
