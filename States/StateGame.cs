@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assignment2.EngineComponents;
+using Assignment2.GameElements;
+using Assignment2.GameElements.Level;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,32 +20,51 @@ namespace Assignment2.States
 
         private IStateManager m_stateManager;
         private ContentManager m_contentManager;
+        private SpriteBatch m_spriteBatch;
         private Matrix m_projectionMatrix;
         private Matrix m_viewMatrix;
         private Matrix m_worldMatrix;
 
-        Vector3 camPosition = new Vector3(0, 1, 0);
-        Vector3 camLookAtVector = Vector3.Zero;
+        Vector3 camPosition = new Vector3(0, 1, -1);
+        Vector3 camLookAtVector = new Vector3(0, 1, 0);//Vector3.Zero;
+
+        Camera m_camera = new Camera(new Vector3(0, 1, -1));
 
         private Model m_classroom;
 
-        public StateGame(ContentManager manager)
+        private Texture2D m_blackboardTex;
+        private SpriteFont m_font;
+
+        GameManager m_gameManager;
+
+        public StateGame(SpriteBatch spriteBatch, ContentManager manager)
         {
             m_contentManager = new ContentManager(manager.ServiceProvider, "Content");
+            m_spriteBatch = spriteBatch;
+            m_gameManager = new GameManager();
         }
 
         public void Init(IStateManager manager)
         {
             m_stateManager = manager;
             m_projectionMatrix = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), Properties.Settings.Default.SCREEN_RES_X / Properties.Settings.Default.SCREEN_RES_Y, 0.1f, 1000f);
-
+            
         }
 
         public void Load()
         {
             m_classroom = m_contentManager.Load<Model>("Classroom/classroom");
-            m_worldMatrix = Matrix.CreateWorld(Vector3.Zero, Vector3.Zero, Vector3.Up);
+            m_blackboardTex = m_contentManager.Load<Texture2D>("Classroom/blackboard");
+            m_worldMatrix = Matrix.Identity;//Matrix.CreateWorld(Vector3.Zero, Vector3.Zero, Vector3.Up);
             m_viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Zero, Vector3.UnitZ);
+            m_font = m_contentManager.Load<SpriteFont>("font");
+            m_gameManager.Initialize();
+            m_gameManager.OutOfLevels += onOutOfLevels;
+        }
+
+        private void onOutOfLevels(object sender, EventArgs e)
+        {
+            m_stateManager.PopState();
         }
 
         public void Draw(GameTime time)
@@ -51,15 +74,18 @@ namespace Assignment2.States
                 foreach(BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
+                    //effect.Texture = m_blackboardTex;
                     //effect.TextureEnabled = true;
                     effect.PreferPerPixelLighting = true;
-                    effect.World = Matrix.Identity;
-                    
-                    effect.View = Matrix.CreateLookAt(camPosition, camLookAtVector, Vector3.UnitZ);
+                    effect.World = m_worldMatrix;
+                    effect.View = m_camera.GetViewMatrix();// Matrix.CreateLookAt(camPosition, camLookAtVector, Vector3.UnitY);
                     effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1024 / 768, 0.1f, 1000f);
                 }
                 mesh.Draw();
             }
+            m_spriteBatch.Begin();
+            m_spriteBatch.DrawString(m_font, m_gameManager.GetString(), new Vector2(0, 0), Color.Black);
+            m_spriteBatch.End();
         }
         
         public void Update(GameTime time)
@@ -68,14 +94,15 @@ namespace Assignment2.States
             {
                 m_stateManager.PopState();
             }
-            if(Keyboard.GetState().IsKeyDown(Keys.W))
+            
+            if(Keyboard.GetState().IsKeyDown(Keys.T))
             {
-                camPosition.Z += 0.1f;
+                m_worldMatrix *= Matrix.CreateTranslation(0, 0, -0.1f);
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                camPosition.Z -= 0.1f;
-            }
+            m_camera.Move();
+            m_camera.Update(time);
+
+            m_gameManager.Update(time);
         }
 
         public void Unload()

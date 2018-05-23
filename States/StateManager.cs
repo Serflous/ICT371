@@ -33,7 +33,7 @@ namespace Assignment2.States
         public void Init(SpriteBatch spriteBatch, ContentManager content)
         {
             StateMainMenu stateMainMenu = new StateMainMenu(spriteBatch, content);
-            StateGame stateGame = new StateGame(content);
+            StateGame stateGame = new StateGame(spriteBatch, content);
 
             stateMainMenu.Init(this);
             stateGame.Init(this);

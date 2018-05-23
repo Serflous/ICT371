@@ -16,7 +16,7 @@ namespace Assignment2
         {
             m_graphics = new GraphicsDeviceManager(this);
             m_stateManager = new StateManager();
-            m_stateManager.NoActiveStates += M_stateManager_NoActiveStates;
+            m_stateManager.NoActiveStates += oNoActiveStates;
             Content.RootDirectory = "Content";
             
         }
@@ -63,7 +63,7 @@ namespace Assignment2
             base.Draw(gameTime);
         }
 
-        private void M_stateManager_NoActiveStates(object sender, System.EventArgs e)
+        private void oNoActiveStates(object sender, System.EventArgs e)
         {
             Exit();
         }
