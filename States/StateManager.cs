@@ -16,7 +16,8 @@ namespace Assignment2.States
         public enum States
         {
             STATE_MAIN_MENU = 1,
-            STATE_GAME = 2
+            STATE_GAME = 2,
+            STATE_RESULTS = 3
         }
 
         public event EventHandler NoActiveStates;
@@ -34,12 +35,15 @@ namespace Assignment2.States
         {
             StateMainMenu stateMainMenu = new StateMainMenu(spriteBatch, content);
             StateGame stateGame = new StateGame(spriteBatch, content);
+            StateResults stateResults = new StateResults(spriteBatch, content);
 
             stateMainMenu.Init(this);
             stateGame.Init(this);
+            stateResults.Init(this);
 
             m_stateList.Add(stateMainMenu);
             m_stateList.Add(stateGame);
+            m_stateList.Add(stateResults);
 
             PushState((int)States.STATE_MAIN_MENU);
         }

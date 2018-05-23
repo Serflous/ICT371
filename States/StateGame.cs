@@ -60,11 +60,13 @@ namespace Assignment2.States
             m_font = m_contentManager.Load<SpriteFont>("font");
             m_gameManager.Initialize();
             m_gameManager.OutOfLevels += onOutOfLevels;
+            Counter.Instance.Reset();
         }
 
         private void onOutOfLevels(object sender, EventArgs e)
         {
             m_stateManager.PopState();
+            m_stateManager.PushState((int)StateManager.States.STATE_RESULTS);
         }
 
         public void Draw(GameTime time)
@@ -84,7 +86,7 @@ namespace Assignment2.States
                 mesh.Draw();
             }
             m_spriteBatch.Begin();
-            m_spriteBatch.DrawString(m_font, m_gameManager.GetString(), new Vector2(0, 0), Color.Black);
+            m_spriteBatch.DrawString(m_font, WrapText(m_gameManager.GetString(), m_font, Properties.Settings.Default.SCREEN_RES_X), new Vector2(0, 0), Color.Black);
             m_spriteBatch.End();
         }
         
@@ -119,6 +121,29 @@ namespace Assignment2.States
         public void Dispose()
         {
             
+        }
+
+        private string WrapText(string text, SpriteFont font, int maxWidth)
+        {
+            string[] words = text.Split(' ');
+            float currentWidth = 0;
+            string output = "";
+            float spaceWidth = font.MeasureString(" ").X;
+            foreach(string word in words)
+            {
+                Vector2 wordSize = font.MeasureString(word);
+                if (currentWidth + wordSize.X < maxWidth)
+                {
+                    output += word + ' ';
+                    currentWidth += wordSize.X + spaceWidth;
+                }
+                else
+                {
+                    output += '\n' + word + ' ';
+                    currentWidth = wordSize.X + spaceWidth;
+                }
+            }
+            return output;
         }
 
     }

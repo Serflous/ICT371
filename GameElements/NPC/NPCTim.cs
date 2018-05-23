@@ -19,7 +19,7 @@ namespace Assignment2.GameElements.NPC
             m_name = "Tim";
             m_introduction = "Hello everyone. My name is Tim, and I'm the local builder. I have a couple questions that someone smart might be able to help me with.";
             m_questions.Add(new Question(20, Question.QuestionType.Subtraction, 3, "I have a pack of 20 nails. I used 3 for a different project. How many nails do I have left?"));
-            m_questions.Add(new Question(17, Question.QuestionType.Addition, 20, "I bought another pack of 20. How many do I have now?"));
+            m_questions.Add(new Question(17, Question.QuestionType.Addition, 20, "So I have 17. I bought another pack of 20. How many do I have now?"));
             m_questions.Add(new Question(6, Question.QuestionType.Multiplication, 4, "Now that I have an accurate nail count, I need some wood. I need 6 lots of 4 planks, how many planks do I need?"));
             m_questions.Add(new Question(24, Question.QuestionType.Division, 3, "These planks of wood need to divided equally between 3 people. How many does each person get?"));
             m_questions.Add(new Question(24, Question.QuestionType.Multiplication, 10, "I need to use 10 nails per plank. I have 24 planks all up, how many nails do I need?"));

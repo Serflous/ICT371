@@ -52,7 +52,10 @@ namespace Assignment2.GameElements.NPC
                     actualAnswer = m_a / m_b;
                     break;
             }
-            return answer == actualAnswer;
+            bool result = answer == actualAnswer;
+            if (!result)
+                Counter.Instance.WrongAnswer(m_type);
+            return result;
 
         }
 

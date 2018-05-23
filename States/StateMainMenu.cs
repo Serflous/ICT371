@@ -61,6 +61,7 @@ namespace Assignment2.States
             m_playGameTextRectangle = new Rectangle((int)(657 * adjustedWidthFactor), (int)(201 * adjustedHeightFactor), (int)(m_playGameText.Width * adjustedWidthFactor), (int)(m_playGameText.Height * adjustedHeightFactor));
             m_optionsTextRectangle = new Rectangle((int)(657 * adjustedWidthFactor), (int)(358 * adjustedHeightFactor), (int)(m_optionsText.Width * adjustedWidthFactor), (int)(m_optionsText.Height * adjustedHeightFactor));
             m_exitTextRectangle = new Rectangle((int)(657 * adjustedWidthFactor), (int)(509 * adjustedHeightFactor), (int)(m_exitText.Width * adjustedWidthFactor), (int)(m_exitText.Height * adjustedHeightFactor));
+            
         }
 
         public void Unload()
@@ -93,6 +94,7 @@ namespace Assignment2.States
                 if(m_option == 0)
                 {
                     m_stateManager.PushState((int)StateManager.States.STATE_GAME);
+                    m_option = 3;
                 }
                 if(m_option == 1)
                 {
