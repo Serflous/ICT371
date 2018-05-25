@@ -11,10 +11,15 @@ namespace Assignment2.GameElements.Level
     {
 
 
+        /// <summary>
+        /// Creates an instance of LevelOne
+        /// </summary>
         public LevelOne()
         {
         }
-
+        /// <summary>
+        /// Initializes Level one with the NPC tim.
+        /// </summary>
         public override void Initialize()
         {
             NPCTim m_npc = new NPCTim();

@@ -32,7 +32,9 @@ namespace Assignment2.GameElements
         private bool m_nextStage;
 
         private double m_responseTimeCounter;
-
+        /// <summary>
+        /// Creates a blank instance of GameManager
+        /// </summary>
         public GameManager()
         {
             m_levels = new List<LevelBase>();
@@ -41,7 +43,9 @@ namespace Assignment2.GameElements
             m_responseTimeCounter = 3000;
             m_nextStage = false;
         }
-
+        /// <summary>
+        /// Initializes the game manager and sets all the levels.
+        /// </summary>
         public void Initialize()
         {
             LevelOne levelOne = new LevelOne();
@@ -59,7 +63,11 @@ namespace Assignment2.GameElements
             m_currentStage = Stage.Introduction;
             m_oldKeyboardState = Keyboard.GetState();
         }
-
+        /// <summary>
+        /// Called when each level is over
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onEndOfLevel(object sender, EventArgs e)
         {
             m_currentLevel++;
@@ -67,12 +75,17 @@ namespace Assignment2.GameElements
             if (m_currentLevel >= m_levels.Count)
                 OnOutOfLevels();
         }
-
+        /// <summary>
+        /// Overridable function for when there are no more levels to play through
+        /// </summary>
         public virtual void OnOutOfLevels()
         {
             OutOfLevels?.Invoke(this, null);
         }
-
+        /// <summary>
+        /// Updates the game based on user input.
+        /// </summary>
+        /// <param name="time">The time</param>
         public void Update(GameTime time)
         {
             if (m_currentStage == Stage.Introduction)
@@ -137,6 +150,10 @@ namespace Assignment2.GameElements
             m_oldGamePadState = GamePad.GetState(PlayerIndex.One);
         }
 
+        /// <summary>
+        /// Gets the current string to display on the black board.
+        /// </summary>
+        /// <returns>The string</returns>
         public string GetString()
         {
             string output = "";

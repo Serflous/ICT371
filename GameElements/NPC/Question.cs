@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assignment2.GameElements.NPC
 {
-    class Question
+    public class Question
     {
 
         public enum QuestionType
@@ -14,10 +15,12 @@ namespace Assignment2.GameElements.NPC
             Addition, Multiplication, Subtraction, Division
         }
 
-        private float m_a, m_b;
+        private int m_a, m_b;
         private QuestionType m_type;
         private string m_questionString;
-
+        /// <summary>
+        /// The question text.
+        /// </summary>
         public string QuestionString
         {
             get
@@ -25,18 +28,28 @@ namespace Assignment2.GameElements.NPC
                 return m_questionString;
             }
         }
-
-        public Question(float a, QuestionType type, float b, string questionString)
+        /// <summary>
+        /// Creates a question to ask the player
+        /// </summary>
+        /// <param name="a">The first value</param>
+        /// <param name="type">The type of question</param>
+        /// <param name="b">The second value</param>
+        /// <param name="questionString">The worded questions</param>
+        public Question(int a, QuestionType type, int b, string questionString)
         {
             m_a = a;
             m_b = b;
             m_type = type;
             m_questionString = questionString;
         }
-
-        public bool AnswerQuestion(float answer)
+        /// <summary>
+        /// Attempts to answer the question with the value supplied by the player
+        /// </summary>
+        /// <param name="answer">True if the answer is correct, false if not.</param>
+        /// <returns></returns>
+        public bool AnswerQuestion(int answer)
         {
-            float actualAnswer = 0;
+            int actualAnswer = 0;
             switch(m_type)
             {
                 case QuestionType.Addition:
@@ -58,7 +71,6 @@ namespace Assignment2.GameElements.NPC
             return result;
 
         }
-
 
     }
 }

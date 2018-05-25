@@ -25,12 +25,19 @@ namespace Assignment2.States
         private Stack<IState> m_activeStates;
         private List<IState> m_stateList;
 
+        /// <summary>
+        /// Creates an instance of the state manager
+        /// </summary>
         public StateManager()
         {
             m_activeStates = new Stack<IState>();
             m_stateList = new List<IState>();
         }
-
+        /// <summary>
+        /// Creates all the states for the state manager, initializes them, and adds them to the state list
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="content"></param>
         public void Init(SpriteBatch spriteBatch, ContentManager content)
         {
             StateMainMenu stateMainMenu = new StateMainMenu(spriteBatch, content);
@@ -47,13 +54,19 @@ namespace Assignment2.States
 
             PushState((int)States.STATE_MAIN_MENU);
         }
-
+        /// <summary>
+        /// Pushes a state onto the stack
+        /// </summary>
+        /// <param name="state"></param>
         public void PushState(IState state)
         {
             state.Load();
             m_activeStates.Push(state);
         }
-
+        /// <summary>
+        /// Pushes a state onto the stack, using its ID
+        /// </summary>
+        /// <param name="stateName"></param>
         public void PushState(int stateName)
         {
             foreach(IState state in m_stateList)
@@ -65,7 +78,9 @@ namespace Assignment2.States
                 }
             }
         }
-
+        /// <summary>
+        /// Pops a state off the stack
+        /// </summary>
         public void PopState()
         {
             m_activeStates.Peek().Unload();
@@ -75,12 +90,18 @@ namespace Assignment2.States
                 OnNoActiveStates(null);
             }
         }
-
+        /// <summary>
+        /// Calls the current states update method
+        /// </summary>
+        /// <param name="time">The Game Time</param>
         public void Update(GameTime time)
         {
             m_activeStates.Peek().Update(time);
         }
-
+        /// <summary>
+        /// Calls the current states draw method
+        /// </summary>
+        /// <param name="time">The game time</param>
         public void Draw(GameTime time)
         {
             m_activeStates.Peek().Draw(time);
@@ -90,7 +111,10 @@ namespace Assignment2.States
         {
             
         }
-
+        /// <summary>
+        /// Overridable method when there arn't any more active states.
+        /// </summary>
+        /// <param name="e"></param>
         public virtual void OnNoActiveStates(EventArgs e)
         {
             NoActiveStates?.Invoke(this, e);

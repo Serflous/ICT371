@@ -20,7 +20,12 @@ namespace Assignment2.EngineComponents
         Vector3 m_mouseRotation;
         MouseState m_currentMouse;
         MouseState m_previousMouse;
+        GamePadState m_previousGamePadState;
 
+        /// <summary>
+        /// Creates a new camera object at the specified position
+        /// </summary>
+        /// <param name="position">The initial position of the camera</param>
         public Camera(Vector3 position)
         {
             m_position = position;
@@ -30,12 +35,18 @@ namespace Assignment2.EngineComponents
             m_previousMouse = Mouse.GetState();
         }
 
+        /// <summary>
+        /// The projection of the camera
+        /// </summary>
         public Matrix Projection
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The view of the camera
+        /// </summary>
         public Matrix View
         {
             get
@@ -44,6 +55,9 @@ namespace Assignment2.EngineComponents
             }
         }
 
+        /// <summary>
+        /// The position of the camera
+        /// </summary>
         public Vector3 Position
         {
             get
@@ -58,6 +72,9 @@ namespace Assignment2.EngineComponents
             }
         }
 
+        /// <summary>
+        /// The rotation of the camera
+        /// </summary>
         public Vector3 Rotation
         {
             get
@@ -72,12 +89,20 @@ namespace Assignment2.EngineComponents
             }
         }
 
+        /// <summary>
+        /// Move the camera and rotate it using the values given
+        /// </summary>
+        /// <param name="pos">The position of the camera</param>
+        /// <param name="rot">The rotation of the camera</param>
         private void MoveToPosition(Vector3 pos, Vector3 rot)
         {
             Rotation = rot;
             Position = pos;
         }
 
+        /// <summary>
+        /// Update the lookat position of the camera
+        /// </summary>
         private void UpdateLookAt()
         {
             Matrix rotationMatrix = Matrix.CreateRotationX(m_cameraRotation.X) * Matrix.CreateRotationY(m_cameraRotation.Y);
@@ -85,6 +110,11 @@ namespace Assignment2.EngineComponents
             m_lookAt = m_position + lookAtOffset;
         }
 
+        /// <summary>
+        /// Calculates the movement vector
+        /// </summary>
+        /// <param name="amount">The movement vector</param>
+        /// <returns></returns>
         private Vector3 NextMove(Vector3 amount)
         {
             Matrix rotate = Matrix.CreateRotationY(m_cameraRotation.Y);
@@ -93,12 +123,20 @@ namespace Assignment2.EngineComponents
             return m_position + movement;
         }
 
+        /// <summary>
+        /// Moves to a certain position without specifiying rotation
+        /// </summary>
+        /// <param name="scale">The position to mvoe to</param>
         private void Move(Vector3 scale)
         {
             MoveToPosition(NextMove(scale), Rotation);
         }
 
         
+        /// <summary>
+        /// Updates the camera calculating the new rotation by user input
+        /// </summary>
+        /// <param name="time">The current game time.</param>
         public void Update(GameTime time)
         {
 
@@ -106,7 +144,7 @@ namespace Assignment2.EngineComponents
             m_currentMouse = Mouse.GetState();
             KeyboardState ks = Keyboard.GetState();
 
-            Vector3 moveVector = Vector3.Zero;
+            /*Vector3 moveVector = Vector3.Zero;
 
             if (ks.IsKeyDown(Keys.W))
             {
@@ -134,20 +172,30 @@ namespace Assignment2.EngineComponents
                 moveVector *= dt * m_cameraSpeed;
 
                 Move(moveVector);
-            }
+            }*/
 
-            float tempX;
-            float tempY;
+            float tempMouseX;
+            float tempMouseY;
 
-            if (m_previousMouse != m_currentMouse)
+            if (m_previousMouse != m_currentMouse || GamePad.GetState(PlayerIndex.One) != m_previousGamePadState)
             {
-                tempX = m_currentMouse.X - (Properties.Settings.Default.SCREEN_RES_X / 2);
-                tempY = m_currentMouse.Y - (Properties.Settings.Default.SCREEN_RES_Y / 2);
+                tempMouseX = m_currentMouse.X - (Properties.Settings.Default.SCREEN_RES_X / 2);
+                tempMouseY = m_currentMouse.Y - (Properties.Settings.Default.SCREEN_RES_Y / 2);
+                float tempControllerX = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X;
+                float tempControllerY = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y;
 
-                m_mouseRotation.X -= 0.1f * tempX * dt;
-                m_mouseRotation.Y -= 0.1f * tempY * dt;
+                if (!(tempMouseX == 0 && tempMouseY == 0))
+                {
+                    m_mouseRotation.X -= 0.1f * tempMouseX * dt;
+                    m_mouseRotation.Y -= 0.1f * tempMouseY * dt;
+                }
+                if (!(tempControllerX == 0 && tempControllerY == 0))
+                {
+                    m_mouseRotation.X -= 0.8f * tempControllerX * dt;
+                    m_mouseRotation.Y -= 0.8f * -tempControllerY * dt;
+                }
 
-                if(m_mouseRotation.Y < MathHelper.ToRadians(-80.0f))
+                if (m_mouseRotation.Y < MathHelper.ToRadians(-80.0f))
                 {
                     m_mouseRotation.Y = m_mouseRotation.Y - (m_mouseRotation.Y - MathHelper.ToRadians(-80.0f));
                 }
@@ -160,13 +208,14 @@ namespace Assignment2.EngineComponents
                 Rotation = new Vector3(-MathHelper.Clamp(m_mouseRotation.Y, MathHelper.ToRadians(-80.0f), MathHelper.ToRadians(80.0f)),
                     MathHelper.WrapAngle(m_mouseRotation.X), 0);
 
-                tempX = 0;
-                tempY = 0;
+                tempMouseX = 0;
+                tempMouseY = 0;
             }
 
             Mouse.SetPosition(Properties.Settings.Default.SCREEN_RES_X / 2, Properties.Settings.Default.SCREEN_RES_Y / 2);
 
             m_previousMouse = m_currentMouse;
+            m_previousGamePadState = GamePad.GetState(PlayerIndex.One);
         }
 
     }

@@ -13,7 +13,7 @@ namespace Assignment2.GameElements.NPC
         string GetName();
         string GetQuestion();
         string GetIntroduction();
-        bool AnswerQuestion(float x);
+        bool AnswerQuestion(int x);
 
 
     }

@@ -9,12 +9,17 @@ namespace Assignment2.GameElements.NPC
     class NPCJill : QuestionableNPCBase
     {
 
-
+        /// <summary>
+        /// Creates the NPC Jill
+        /// </summary>
         public NPCJill()
         {
 
         }
 
+        /// <summary>
+        /// Initializes the NPC Jill and sets all her questions
+        /// </summary>
         public override void Initialize()
         {
             m_name = "Jill";

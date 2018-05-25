@@ -10,12 +10,16 @@ namespace Assignment2.GameElements.Level
     class LevelThree : LevelBase
     {
 
-
+        /// <summary>
+        /// Creates an instance of level three
+        /// </summary>
         public LevelThree()
         {
 
         }
-
+        /// <summary>
+        /// Initializes level three with the NPC jill
+        /// </summary>
         public override void Initialize()
         {
             NPCJill jill = new NPCJill();

@@ -20,7 +20,9 @@ namespace Assignment2
             Content.RootDirectory = "Content";
             
         }
-
+        /// <summary>
+        /// Initalizes the game.
+        /// </summary>
         protected override void Initialize()
         {
             m_graphics.PreferredBackBufferWidth = Properties.Settings.Default.SCREEN_RES_X;
@@ -33,7 +35,9 @@ namespace Assignment2
 
             base.Initialize();
         }
-        
+        /// <summary>
+        /// Loads the content. Creates the new sprite batch and initializes the state manager
+        /// </summary>
         protected override void LoadContent()
         {
             m_spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -44,17 +48,20 @@ namespace Assignment2
         {
             
         }
-        
+        /// <summary>
+        /// Updates the game. Calls the current states update method
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             m_stateManager.Update(gameTime);
 
             base.Update(gameTime);
         }
-        
+        /// <summary>
+        /// Calls the current states draw method
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -62,7 +69,12 @@ namespace Assignment2
             m_stateManager.Draw(gameTime);
             base.Draw(gameTime);
         }
-
+        /// <summary>
+        /// Called when theres no active states.
+        /// Exits the game
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">Event Args</param>
         private void oNoActiveStates(object sender, System.EventArgs e)
         {
             Exit();

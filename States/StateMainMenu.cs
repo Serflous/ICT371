@@ -32,18 +32,28 @@ namespace Assignment2.States
         private KeyboardState m_oldKeyState;
         private GamePadState m_oldGamePadState;
         private int m_option = 0;
-
+        /// <summary>
+        /// Creates an instance of StateMainMenu
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to allow 2D drawing</param>
+        /// <param name="manager">The content manager to allow loading in values</param>
         public StateMainMenu(SpriteBatch spriteBatch, ContentManager content)
         {
             m_spriteBatch = spriteBatch;
             m_content = new ContentManager(content.ServiceProvider, "Content");
         }
 
+        /// <summary>
+        /// Initializes the main menu
+        /// </summary>
+        /// <param name="manager">The state manager so it can call another state.</param>
         public void Init(IStateManager manager)
         {
             m_stateManager = manager;
         }
-
+        /// <summary>
+        /// Loads all the assets this state uses.
+        /// </summary>
         public void Load()
         {
             m_blackboard = m_content.Load<Texture2D>("Blackboard");
@@ -64,11 +74,18 @@ namespace Assignment2.States
             
         }
 
+        /// <summary>
+        /// Unloads the data
+        /// </summary>
         public void Unload()
         {
             m_content.Unload();
         }
-        
+
+        /// <summary>
+        /// Updates the main menu state
+        /// </summary>
+        /// <param name="time">The game time</param>
         public void Update(GameTime time)
         {
             
@@ -109,7 +126,10 @@ namespace Assignment2.States
             m_oldKeyState = Keyboard.GetState();
             m_oldGamePadState = GamePad.GetState(PlayerIndex.One);
         }
-
+        /// <summary>
+        /// Draws the main menu state. Draws the classroom and the writing.
+        /// </summary>
+        /// <param name="time">The gametime</param>
         public void Draw(GameTime time)
         {
             m_spriteBatch.Begin();
@@ -120,7 +140,10 @@ namespace Assignment2.States
             m_spriteBatch.Draw(m_exitText, m_exitTextRectangle, (m_option == 2) ? Color.Tan : Color.White);
             m_spriteBatch.End();
         }
-
+        /// <summary>
+        /// Gets the ID of the main menu state.
+        /// </summary>
+        /// <returns>The ID of the game state</returns>
         public int GetID()
         {
             return (int)StateManager.States.STATE_MAIN_MENU;

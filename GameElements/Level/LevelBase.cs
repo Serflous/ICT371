@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Assignment2.GameElements.Level
 {
-    class LevelBase
+    /// <summary>
+    /// Abstract class that defines a level
+    /// </summary>
+    abstract class LevelBase
     {
 
 
@@ -16,11 +19,17 @@ namespace Assignment2.GameElements.Level
         protected List<QuestionableNPCBase> m_npcs;
         protected int m_currentNpc;
         
+        /// <summary>
+        /// Default constructor. Initializes NPC list
+        /// </summary>
         public LevelBase()
         {
             m_npcs = new List<QuestionableNPCBase>();
         }
 
+        /// <summary>
+        /// Initializes the level. Setting the current NPC to 0 and adds the event handler to all the levels NPCs
+        /// </summary>
         public virtual void Initialize()
         {
             m_currentNpc = 0;
@@ -30,6 +39,11 @@ namespace Assignment2.GameElements.Level
             }
         }
 
+        /// <summary>
+        /// The out of questions event handler
+        /// </summary>
+        /// <param name="sender">The sender</param>
+        /// <param name="e">Event ages</param>
         private void OnOutOfQuestions(object sender, EventArgs e)
         {
             m_currentNpc++;
@@ -39,21 +53,36 @@ namespace Assignment2.GameElements.Level
             }
         }
 
+        /// <summary>
+        /// Introduce the NPC.
+        /// </summary>
+        /// <returns>The current NPCs introduction text</returns>
         public string IntroduceNPC()
         {
             return m_npcs[m_currentNpc].GetIntroduction();
         }
 
+        /// <summary>
+        /// Gets the current NPCs question text
+        /// </summary>
+        /// <returns>The current NPCs question text</returns>
         public string AskQuestion()
         {
             return m_npcs[m_currentNpc].GetQuestion();
         }
-
-        public bool AnswerQuestion(float answer)
+        /// <summary>
+        /// Attempt to answer the question from the NPC
+        /// </summary>
+        /// <param name="answer">The answer supplied by the user</param>
+        /// <returns>True if the question was answered correctly, false if not.</returns>
+        public bool AnswerQuestion(int answer)
         {
             return m_npcs[m_currentNpc].AnswerQuestion(answer);
         }
 
+        /// <summary>
+        /// Virtual function for when the level is over.
+        /// </summary>
         public virtual void OnEndOfLevel()
         {
             EndOfLevel?.Invoke(this, null);

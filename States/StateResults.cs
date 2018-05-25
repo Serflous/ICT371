@@ -26,7 +26,11 @@ namespace Assignment2.States
         private Rectangle m_titleTextRectangle;
 
         private float adjustedWidthFactor, adjustedHeightFactor;
-
+        /// <summary>
+        /// Creates an instance of StateResults
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to allow 2D drawing</param>
+        /// <param name="manager">The content manager to allow loading in values</param>
         public StateResults(SpriteBatch spriteBatch, ContentManager content)
         {
             m_spriteBatch = spriteBatch;
@@ -37,7 +41,10 @@ namespace Assignment2.States
         {
             
         }
-
+        /// <summary>
+        /// Draws the results state. Draws the classroom and the writing.
+        /// </summary>
+        /// <param name="time">The gametime</param>
         public void Draw(GameTime time)
         {
             m_spriteBatch.Begin();
@@ -50,17 +57,25 @@ namespace Assignment2.States
             m_spriteBatch.DrawString(m_font, "Division: " + Counter.Instance.GetWrongAnswers(GameElements.NPC.Question.QuestionType.Division), new Vector2((int)(20 * adjustedWidthFactor), (int)(210 * adjustedHeightFactor)), Color.White);
             m_spriteBatch.End();
         }
-
+        /// <summary>
+        /// Gets the ID of the results state.
+        /// </summary>
+        /// <returns>The ID of the game state</returns>
         public int GetID()
         {
             return (int)StateManager.States.STATE_RESULTS;
         }
-
+        /// <summary>
+        /// Initializes the results state
+        /// </summary>
+        /// <param name="manager">The state manager so it can call another state.</param>
         public void Init(IStateManager manager)
         {
             m_stateManager = manager;
         }
-
+        /// <summary>
+        /// Loads all the assets this state uses.
+        /// </summary>
         public void Load()
         {
             m_blackboard = m_content.Load<Texture2D>("Blackboard");
@@ -74,12 +89,17 @@ namespace Assignment2.States
 
             m_titleTextRectangle = new Rectangle((int)(86 * adjustedWidthFactor), (int)(49 * adjustedHeightFactor), (int)(m_titleText.Width * adjustedWidthFactor), (int)(m_titleText.Height * adjustedHeightFactor));
         }
-
+        /// <summary>
+        /// Unloads the data
+        /// </summary>
         public void Unload()
         {
-            
+            m_content.Unload();
         }
-
+        /// <summary>
+        /// Updates the game state
+        /// </summary>
+        /// <param name="time">The game time</param>
         public void Update(GameTime time)
         {
             if(Keyboard.GetState().IsKeyDown(Keys.Escape) ||

@@ -9,12 +9,16 @@ namespace Assignment2.GameElements.Level
 {
     class LevelTwo : LevelBase
     {
-
+        /// <summary>
+        /// Creates an instance of level two
+        /// </summary>
         public LevelTwo()
         {
 
         }
-
+        /// <summary>
+        /// Initializes level two with the NPC greg.
+        /// </summary>
         public override void Initialize()
         {
             NPCGreg greg = new NPCGreg();

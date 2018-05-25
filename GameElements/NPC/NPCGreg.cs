@@ -9,12 +9,16 @@ namespace Assignment2.GameElements.NPC
     class NPCGreg : QuestionableNPCBase
     {
 
-
+        /// <summary>
+        /// Creates the NPC greg.
+        /// </summary>
         public NPCGreg()
         {
 
         }
-
+        /// <summary>
+        /// Initializes greg and sets all his questions
+        /// </summary>
         public override void Initialize()
         {
             m_name = "Greg";
