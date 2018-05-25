@@ -25,10 +25,13 @@ namespace Assignment2.States
         private Matrix m_viewMatrix;
         private Matrix m_worldMatrix;
 
+        float m_modelRotation = 0.0f;
+        Vector3 m_modelPosition = new Vector3(0, 0, 0);
+
         Vector3 camPosition = new Vector3(0, 1, -1);
         Vector3 camLookAtVector = new Vector3(0, 1, 0);//Vector3.Zero;
 
-        Camera m_camera = new Camera(new Vector3(0, 1, -1));
+        Camera m_camera = new Camera(new Vector3(0, 3.5f, -2));
 
         private Model m_classroom;
 
@@ -53,6 +56,7 @@ namespace Assignment2.States
 
         public void Load()
         {
+            
             m_classroom = m_contentManager.Load<Model>("Classroom/classroom");
             m_blackboardTex = m_contentManager.Load<Texture2D>("Classroom/blackboard");
             m_worldMatrix = Matrix.Identity;//Matrix.CreateWorld(Vector3.Zero, Vector3.Zero, Vector3.Up);
@@ -71,6 +75,10 @@ namespace Assignment2.States
 
         public void Draw(GameTime time)
         {
+
+            Matrix[] transforms = new Matrix[m_classroom.Bones.Count];
+            m_classroom.CopyAbsoluteBoneTransformsTo(transforms);
+
             foreach(ModelMesh mesh in m_classroom.Meshes)
             {
                 foreach(BasicEffect effect in mesh.Effects)
@@ -78,10 +86,15 @@ namespace Assignment2.States
                     effect.EnableDefaultLighting();
                     //effect.Texture = m_blackboardTex;
                     //effect.TextureEnabled = true;
-                    effect.PreferPerPixelLighting = true;
+                    //effect.PreferPerPixelLighting = true;
                     effect.World = m_worldMatrix;
-                    effect.View = m_camera.GetViewMatrix();// Matrix.CreateLookAt(camPosition, camLookAtVector, Vector3.UnitY);
+
+                    //effect.View = m_camera.GetViewMatrix();
+                    effect.View = m_camera.View;
+
+                    // Matrix.CreateLookAt(camPosition, camLookAtVector, Vector3.UnitY);
                     effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1024 / 768, 0.1f, 1000f);
+                    //effect.Projection = m_camera.Projection;
                 }
                 mesh.Draw();
             }
@@ -101,7 +114,7 @@ namespace Assignment2.States
             {
                 m_worldMatrix *= Matrix.CreateTranslation(0, 0, -0.1f);
             }
-            m_camera.Move();
+            //m_camera.Move();
             m_camera.Update(time);
 
             m_gameManager.Update(time);
